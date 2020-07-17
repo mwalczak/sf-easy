@@ -1,5 +1,4 @@
-# EasySf
-
+# SfEasy
 Symfony 5.1 User/Security Bootstrap with EasyAdmin
 
 ## Installation
