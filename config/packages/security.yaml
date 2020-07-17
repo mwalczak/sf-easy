@@ -3,7 +3,7 @@ security:
         App\Entity\User:
             algorithm: auto
 
-    enable_authenticator_manager: true
+    #enable_authenticator_manager: true
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
         # used to reload user from session & other features (e.g. switch_user)
@@ -16,8 +16,14 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
+            anonymous: true
             lazy: true
-            form_login: ~
+            provider: app_user_provider
+            logout:
+                path:   app_logout
+            guard:
+                authenticators:
+                    - App\Security\LoginFormAuthenticator
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
@@ -29,7 +35,7 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         # allow unauthenticated users to access the login form
-        - { path: ^/admin/login, roles: PUBLIC_ACCESS }
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
 
         # but require authentication for all other admin routes
         - { path: ^/admin, roles: ROLE_ADMIN }
