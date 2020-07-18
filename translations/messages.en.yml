@@ -1,0 +1,7 @@
+#email templates
+email:
+  register:
+    subject: Welcome to Sf-Easy
+    welcome: Welcome
+    text: Your have registered a Sf-Easy account
+    link: Use this link to open Sf-Easy

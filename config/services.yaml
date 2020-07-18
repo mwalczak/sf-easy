@@ -27,3 +27,5 @@ services:
     # please note that last definitions always *replace* previous ones
     App\EventListener\EntityUpdatedBySetter:
         tags: [doctrine.orm.entity_listener]
+    App\EventListener\UserListener:
+        tags: [doctrine.orm.entity_listener]

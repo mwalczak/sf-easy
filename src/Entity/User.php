@@ -5,13 +5,15 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\HasLifecycleCallbacks()
  * @ORM\EntityListeners(
  *     {
- *          "App\EventListener\EntityUpdatedBySetter"
+ *          "App\EventListener\EntityUpdatedBySetter",
+ *          "App\EventListener\UserListener"
  *     }
  * )
  */
@@ -55,6 +57,12 @@ class User implements UserInterface, UpdatedByInterface
      * @ORM\JoinColumn(nullable=true)
      */
     private $updatedBy;
+
+    /**
+     * @Assert\NotBlank()
+     * @Assert\Length(min=8, max=128)
+     */
+    private ?string $plainPassword = null;
 
     public function getId(): ?int
     {
@@ -117,6 +125,11 @@ class User implements UserInterface, UpdatedByInterface
         return $this;
     }
 
+    public function cleanPassword(): self
+    {
+        return $this->setPassword('');
+    }
+
     /**
      * @see UserInterface
      */
@@ -131,7 +144,7 @@ class User implements UserInterface, UpdatedByInterface
     public function eraseCredentials()
     {
         // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
+        $this->plainPassword = null;
     }
 
     public function getCreatedAt(): ?\DateTimeInterface
@@ -174,5 +187,15 @@ class User implements UserInterface, UpdatedByInterface
         $this->updatedBy = $updatedBy;
 
         return $this;
+    }
+
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword(string $password): void
+    {
+        $this->plainPassword = $password;
     }
 }

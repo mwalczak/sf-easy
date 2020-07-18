@@ -1,0 +1,35 @@
+<mjml>
+    <mj-body background-color="#ffffff">
+        <mj-section background-color="#ffffff" padding-bottom="0px" padding-top="0">
+            <mj-column vertical-align="top" width="100%">
+                <mj-image src="{{ email.image('@images/logo_50.png') }}" href="#" alt="" align="left" border="none"
+                          width="153px" padding-left="25px" padding-right="0px"></mj-image>
+
+            </mj-column>
+        </mj-section>
+        <mj-section background-color="#f79862">
+            <mj-column vertical-align="middle" width="100%">
+                <mj-text background-color="#f79862" align="left" color="#ffffff" font-size="22px"
+                         font-family="open Sans Helvetica, Arial, sans-serif" padding-left="25px" padding-right="25px">
+                    {% trans %}email.register.welcome{% endtrans %}
+                </mj-text>
+            </mj-column>
+        </mj-section>
+        <mj-section padding-bottom="20px" padding-top="20px">
+            <mj-column vertical-align="middle" width="100%">
+                <mj-text align="justify" color="#646777" font-size="17px"
+                         font-family="open Sans Helvetica, Arial, sans-serif" padding-left="25px"
+                         padding-right="25px">{% trans %}email.register.text{% endtrans %}</mj-text>
+
+                <mj-image src="{{ email.image('@images/logo_square_50.png') }}" alt="" align="left" border="none"
+                          width="50px" padding-left="25px" padding-right="0px" padding-bottom="0px"
+                          padding-top="0"></mj-image>
+
+                <mj-text align="left" color="#646777" font-size="17px"
+                         font-family="open Sans Helvetica, Arial, sans-serif" padding-left="25px"
+                         padding-right="25px">{% trans %}email.register.link{% endtrans %}:
+                </mj-text>
+            </mj-column>
+        </mj-section>
+    </mj-body>
+</mjml>
