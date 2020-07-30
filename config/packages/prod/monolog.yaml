@@ -14,3 +14,9 @@ monolog:
             type: console
             process_psr_3_messages: false
             channels: ["!event", "!doctrine"]
+        app:
+            type: rotating_file
+            max_files: 3
+            path: "%kernel.logs_dir%/app-%kernel.environment%.log"
+            level: debug
+            channels: ["app"]

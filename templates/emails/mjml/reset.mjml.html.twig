@@ -1,0 +1,35 @@
+<mjml>
+    <mj-body background-color="#ffffff">
+        <mj-section background-color="#ffffff" padding-bottom="0px" padding-top="0">
+            <mj-column vertical-align="top" width="100%">
+                <mj-image src="{{ email.image('@images/logo_50.png') }}" href="#" alt="" align="left" border="none"
+                          width="153px" padding-left="25px" padding-right="0px"></mj-image>
+
+            </mj-column>
+        </mj-section>
+        <mj-section background-color="#f79862">
+            <mj-column vertical-align="middle" width="100%">
+                <mj-text background-color="#f79862" align="left" color="#ffffff" font-size="22px"
+                         font-family="open Sans Helvetica, Arial, sans-serif" padding-left="25px" padding-right="25px">
+                    {% trans %}email.reset.welcome{% endtrans %}
+                </mj-text>
+            </mj-column>
+        </mj-section>
+        <mj-section padding-bottom="20px" padding-top="20px">
+            <mj-column vertical-align="middle" width="100%">
+                <mj-text align="justify" color="#646777" font-size="17px"
+                         font-family="open Sans Helvetica, Arial, sans-serif" padding-left="25px"
+                         padding-right="25px">{% trans %}email.reset.text{% endtrans %}</mj-text>
+
+                <mj-button padding-top="20px" padding-bottom="20px" width="220px" height="40px"
+                           border-radius="10px" color="#646777"
+                           href="{{ url('app_reset_password', {token: resetToken.token}) }}">{% trans %}email.reset
+                        .button{% endtrans %}</mj-button>
+
+                <mj-text font-size="11px" line-height="16px" color="#646777">
+                    {% trans %}email.reset.deactivated{% endtrans %}: {{ tokenLifetime|date("Y-m-d H:i:s") }}
+                </mj-text>
+            </mj-column>
+        </mj-section>
+    </mj-body>
+</mjml>

@@ -5,3 +5,13 @@ email:
     welcome: Welcome
     text: Your have registered a Sf-Easy account
     link: Use this link to open Sf-Easy
+  reset:
+    subject: Your password reset request
+    welcome: Reset password
+    text: To reset your password, please click button below
+    button: Reset
+    deactivated: This link will expire at
+twig:
+  login:
+    reset_link: Reset password
+    reset_button: Reset

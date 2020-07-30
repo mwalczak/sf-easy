@@ -49,7 +49,7 @@ class SecurityController extends AbstractController
             'target_path' => $this->generateUrl('admin_dashboard'),
 
             // the label displayed for the username form field (the |trans filter is applied to it)
-            'username_label' => 'Your username',
+            'username_label' => 'Your email',
 
             // the label displayed for the password form field (the |trans filter is applied to it)
             'password_label' => 'Your password',

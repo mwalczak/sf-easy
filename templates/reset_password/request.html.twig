@@ -1,0 +1,30 @@
+{% extends 'bundles/EasyAdminBundle/page/login.html.twig' %}
+
+{% block login_alert %}
+    {% for flashError in app.flashes('reset_password_error') %}
+        <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+    {% endfor %}
+{% endblock %}
+
+{% block login_form %}
+    <div>
+        <small>
+            Enter your email address and we we will send you a
+            link to reset your password.
+        </small>
+    </div>
+    {{ form_start(requestForm) }}
+    <div class="form-group field-text">
+        <div class="form-widget form-widget-with-icon">
+            <i class="fa fa-fw fa-user"></i>
+            {{ form_row(requestForm.email) }}
+        </div>
+    </div>
+    <div class="form-group field-button">
+        <button type="submit" class="btn btn-primary btn-lg btn-block" onclick="this.form.submit(); this.disabled=true;">
+            {{ 'twig.login.reset_button'|trans }}
+        </button>
+    </div>
+    {{ form_end(requestForm) }}
+{% endblock %}
+
