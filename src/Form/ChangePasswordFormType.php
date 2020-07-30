@@ -18,6 +18,9 @@ class ChangePasswordFormType extends AbstractType
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'first_options' => [
+                    'attr' => [
+                        'placeholder' => 'Enter password'
+                    ],
                     'constraints' => [
                         new NotBlank([
                             'message' => 'Please enter a password',
@@ -29,10 +32,13 @@ class ChangePasswordFormType extends AbstractType
                             'max' => 4096,
                         ]),
                     ],
-                    'label' => 'New password',
+                    'label' => false,
                 ],
                 'second_options' => [
-                    'label' => 'Repeat Password',
+                    'label' => false,
+                    'attr' => [
+                        'placeholder' => 'Repeat password'
+                    ],
                 ],
                 'invalid_message' => 'The password fields must match.',
                 // Instead of being set onto the object directly,

@@ -1,5 +1,11 @@
 {% extends '@!EasyAdmin/page/login.html.twig' %}
 
+{% block head_stylesheets %}
+    <link rel="stylesheet" href="{{ asset('bundles/easyadmin/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+    {% block extra_style %}{% endblock %}
+{% endblock %}
+
 {% block wrapper_wrapper %}
     {% set page_title = block('page_title') %}
     {% set _username_label = username_label is defined ? username_label|trans : 'login_page.username'|trans({}, 'EasyAdminBundle') %}

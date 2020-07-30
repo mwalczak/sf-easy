@@ -1,17 +1,24 @@
 {% extends 'bundles/EasyAdminBundle/page/login.html.twig' %}
 
+{% block extra_style %}
+    <style>
+        .login-wrapper {
+            width: auto;
+        }
+    </style>
+{% endblock %}
+
 {% block login_form %}
     <div>
-        <small>
-            Set new password.
-        </small>
+        Set new password
     </div>
     {{ form_start(resetForm) }}
     <div class="form-group field-password">
         <label for="password" class="sr-only form-control-label required">{{ _password_label }}</label>
         <div class="form-widget form-widget-with-icon">
             <i class="fa fa-fw fa-lock"></i>
-            {{ form_row(resetForm.plainPassword) }}
+            {{ form_row(resetForm.plainPassword.first) }}
+            {{ form_row(resetForm.plainPassword.second) }}
         </div>
     </div>
     <div class="form-group field-button">

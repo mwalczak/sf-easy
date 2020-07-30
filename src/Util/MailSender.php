@@ -59,8 +59,6 @@ class MailSender
 
         $message->html($this->twig->render($template, $context));
 
-        dump($message);
-
         return $this->send($message);
     }
 
