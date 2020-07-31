@@ -11,7 +11,8 @@ email:
     welcome: Reset password
     text: To reset your password, please click button below
     button: Reset
-    deactivated: This link will expire at
+    deactivated: This link will expire in
+    deactivated2: hour(s).
 #twig templates
 twig:
   login:
