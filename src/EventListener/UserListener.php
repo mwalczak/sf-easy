@@ -1,8 +1,8 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\EventListener;
-
 
 use App\Entity\User;
 use App\Message\NewUserMessage;
@@ -38,7 +38,7 @@ class UserListener
 
     private function handlePassword(User $user): void
     {
-        if($user->getPlainPassword()){
+        if ($user->getPlainPassword()) {
             $user->setPassword(
                 $this->userPasswordEncoder->encodePassword($user, $user->getPlainPassword())
             );

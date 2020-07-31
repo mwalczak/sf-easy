@@ -1,8 +1,8 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\MessageHandler;
-
 
 use App\Entity\User;
 use App\Message\NewUserMessage;
@@ -32,12 +32,12 @@ class NewUserMessageHandler implements MessageHandlerInterface
         try {
             /** @var User $user */
             $user = $this->entityManager->getRepository(User::class)->find($message->getUserId());
-            if(!$user) {
+            if (!$user) {
                 throw new \Exception('User not found');
             }
             $this->mailSender->sendTwig($user->getEmail(), 'emails/register.html.twig', $this->translator->trans('email.register.subject'), []);
 
-            $this->logger->notice('New user created (email: ' . $user->getEmail() . ')');
+            $this->logger->notice('New user created (email: '.$user->getEmail().')');
         } catch (\Exception $e) {
             $this->logger->notice('New user handler error: '.$e->getMessage());
         }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Form;
 
 use Symfony\Component\Form\AbstractType;
@@ -22,7 +24,7 @@ class ResetPasswordRequestFormType extends AbstractType
                 'label' => false,
                 'attr' => [
                     'placeholder' => 'Your email',
-                    'class' => 'form-control'
+                    'class' => 'form-control',
                 ],
             ])
         ;

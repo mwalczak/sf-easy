@@ -5,16 +5,19 @@ email:
     welcome: Welcome
     text: Your have registered a Sf-Easy account
     link: Use this link to open Sf-Easy
+    button: Go to admin
   reset:
     subject: Your password reset request
     welcome: Reset password
     text: To reset your password, please click button below
     button: Reset
     deactivated: This link will expire at
+#twig templates
 twig:
   login:
     reset_link: Reset password
     reset_button: Reset
+    reset_text: Enter your email address and we we will send you a link to reset your password.
   check_email:
     email_sent1: An email has been sent that contains a link that you can click to reset your password. This link will expire in
     email_sent2: hour(s).

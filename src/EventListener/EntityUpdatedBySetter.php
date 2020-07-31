@@ -1,8 +1,8 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\EventListener;
-
 
 use App\Entity\UpdatedByInterface;
 use Doctrine\ORM\Event\LifecycleEventArgs;
@@ -12,6 +12,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class EntityUpdatedBySetter
 {
     private ?UserInterface $user;
+
     public function __construct(Security $security)
     {
         $this->user = $security->getUser();
@@ -21,7 +22,7 @@ class EntityUpdatedBySetter
     {
         $entity = $args->getObject();
 
-        if($this->user){
+        if ($this->user) {
             $entity->setUpdatedBy($this->user);
         }
     }
@@ -34,7 +35,7 @@ class EntityUpdatedBySetter
             return;
         }
 
-        if($this->user){
+        if ($this->user) {
             $entity->setUpdatedBy($this->user);
         }
     }

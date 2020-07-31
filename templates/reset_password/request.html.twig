@@ -8,8 +8,7 @@
 
 {% block login_form %}
     <div>
-        Enter your email address and we we will send you a
-        link to reset your password.
+        {{ 'twig.login.reset_text'|trans }}
     </div>
     {{ form_start(requestForm) }}
     <div class="form-group field-text">

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Entity\User;
@@ -7,13 +9,10 @@ use App\Form\ChangePasswordFormType;
 use App\Form\ResetPasswordRequestFormType;
 use App\Util\MailSender;
 use Psr\Log\LoggerInterface;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -139,8 +138,7 @@ class ResetPasswordController extends AbstractController
     }
 
     private function processSendingPasswordResetEmail(string $emailFormData, MailSender $mailSender,
-                                                      TranslatorInterface $translator, LoggerInterface $logger):
-RedirectResponse
+                                                      TranslatorInterface $translator, LoggerInterface $logger): RedirectResponse
     {
         $user = $this->getDoctrine()->getRepository(User::class)->findOneBy([
             'email' => $emailFormData,
@@ -151,7 +149,8 @@ RedirectResponse
 
         // Do not reveal whether a user account was found or not.
         if (!$user) {
-            $logger->notice('Password reset - user not found (email: ' . $user->getEmail() . ')');
+            $logger->notice('Password reset - user not found (email: '.$user->getEmail().')');
+
             return $this->redirectToRoute('app_check_email');
         }
 
@@ -166,7 +165,8 @@ RedirectResponse
             //     'There was a problem handling your password reset request - %s',
             //     $e->getReason()
             // ));
-            $logger->notice('Password reset - token exception (email: ' . $user->getEmail() . ')');
+            $logger->notice('Password reset - token exception (email: '.$user->getEmail().')');
+
             return $this->redirectToRoute('app_check_email');
         }
 
@@ -176,7 +176,7 @@ RedirectResponse
                 'tokenLifetime' => $this->resetPasswordHelper->getTokenLifetime(),
             ]);
 
-        $logger->notice('Password reset request sent (email: ' . $user->getEmail() . ', token: ' . $resetToken->getToken() . ')');
+        $logger->notice('Password reset request sent (email: '.$user->getEmail().', token: '.$resetToken->getToken().')');
 
         return $this->redirectToRoute('app_check_email');
     }

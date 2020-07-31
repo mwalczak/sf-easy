@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Form;
 
 use Symfony\Component\Form\AbstractType;
@@ -19,7 +21,7 @@ class ChangePasswordFormType extends AbstractType
                 'type' => PasswordType::class,
                 'first_options' => [
                     'attr' => [
-                        'placeholder' => 'Enter password'
+                        'placeholder' => 'Enter password',
                     ],
                     'constraints' => [
                         new NotBlank([
@@ -37,7 +39,7 @@ class ChangePasswordFormType extends AbstractType
                 'second_options' => [
                     'label' => false,
                     'attr' => [
-                        'placeholder' => 'Repeat password'
+                        'placeholder' => 'Repeat password',
                     ],
                 ],
                 'invalid_message' => 'The password fields must match.',

@@ -2,7 +2,7 @@
     <mj-body background-color="#ffffff">
         <mj-section background-color="#ffffff" padding-bottom="0px" padding-top="0">
             <mj-column vertical-align="top" width="100%">
-                <mj-image src="{{ email.image('@images/logo_50.png') }}" href="#" alt="" align="left" border="none"
+                <mj-image src="{{ email.image('@images/logo_50.png') }}" href="{{ url('app_login') }}" alt="" align="left" border="none"
                           width="153px" padding-left="25px" padding-right="0px"></mj-image>
 
             </mj-column>
@@ -22,9 +22,8 @@
                          padding-right="25px">{% trans %}email.reset.text{% endtrans %}</mj-text>
 
                 <mj-button padding-top="20px" padding-bottom="20px" width="220px" height="40px"
-                           border-radius="10px" color="#646777"
-                           href="{{ url('app_reset_password', {token: resetToken.token}) }}">{% trans %}email.reset
-                        .button{% endtrans %}</mj-button>
+                           border-radius="10px" color="#f79862"
+                           href="{{ url('app_reset_password', {token: resetToken.token}) }}">{% trans %}email.reset.button{% endtrans %}</mj-button>
 
                 <mj-text font-size="11px" line-height="16px" color="#646777">
                     {% trans %}email.reset.deactivated{% endtrans %}: {{ tokenLifetime|date("Y-m-d H:i:s") }}

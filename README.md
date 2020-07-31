@@ -50,6 +50,11 @@ root@root.dev / root (admin user)
 user@user.dev / user (regular user)
 ```
 
+Send email tests with:
+```
+php bin/console app:send-email --template=register --email=user@example.com
+```
+
 ## Config
 Configure Mailer for register and password reset:
 ```
@@ -57,6 +62,10 @@ MAILER_DSN
 MAILER_FROM
 MAILER_FROM
 ```
+[How to configure mailtrap for mailer](https://blog.mailtrap.io/send-emails-in-symfony/)
+
+[How to configure gmail for mailer](https://symfony.com/doc/current/email.html#using-gmail-to-send-emails)
+
 Modify and generate emails with mjml:
 ```
 npm install
@@ -72,10 +81,17 @@ Check examples of templates overriding in:
 /templates/reset_password/
 ```
 
+## Code style
+Run PHP CS Fixer with:
+```
+vendor/bin/php-cs-fixer fix -v
+```
+You will find rules in: `.php_cs.dist`
+
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
-Please make sure to update tests as appropriate.
+Please make sure to follow code style and update tests as appropriate.
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
