@@ -1,8 +1,6 @@
-{% extends '@!EasyAdmin/page/login.html.twig' %}
+{% extends 'bundles/EasyAdminBundle/page/login.html.twig' %}
 
-{% block wrapper_wrapper %}
-    <div class="login-wrapper">
-        <p>An email has been sent that contains a link that you can click to reset your password. This link will expire in {{ tokenLifetime|date('g') }} hour(s).</p>
-        <p>If you don't receive an email please check your spam folder or <a href="{{ path('app_forgot_password_request') }}">try again</a>.</p>
-    </div>
+{% block login_form %}
+    <p>{{ 'twig.check_email.email_sent1'|trans }} {{ tokenLifetime|date('g') }} {{ 'twig.check_email.email_sent2'|trans }}</p>
+    <p>{{ 'twig.check_email.try_again_text'|trans }} <a href="{{ path('app_forgot_password_request') }}">{{ 'twig.check_email.try_again_link'|trans }}</a>.</p>
 {% endblock %}

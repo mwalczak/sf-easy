@@ -15,3 +15,8 @@ twig:
   login:
     reset_link: Reset password
     reset_button: Reset
+  check_email:
+    email_sent1: An email has been sent that contains a link that you can click to reset your password. This link will expire in
+    email_sent2: hour(s).
+    try_again_text: If you don't receive an email please check your spam folder or
+    try_again_link: try again
