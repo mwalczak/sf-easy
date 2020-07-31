@@ -34,6 +34,22 @@ echo 'DATABASE_URL=mysql://root:P@ssw0rd@127.0.0.1:3307/default' >> .env.local
 bash reset_dev_db.sh
 ```
 
+## Usage
+
+Start local server with:
+```
+symfony serve
+```
+Open your browser:
+
+[Localhost](http://localhost:8000)
+
+Login with one of created users:
+```
+root@root.dev / root (admin user)
+user@user.dev / user (regular user)
+```
+
 ## Config
 Configure Mailer for register and password reset:
 ```
@@ -50,20 +66,10 @@ Put your custom css in:
 ```
 public/css/admin.css
 ```
-## Usage
-
-Start local server with:
+Check examples of templates overriding in:
 ```
-symfony serve
-```
-Open your browser:
-
-[Localhost](http://localhost:8000)
-
-Login with one of created users:
-```
-root@root.dev / root (admin user)
-user@user.dev / user (regular user)
+/templates/bundles/
+/templates/reset_password/
 ```
 
 ## Contributing
