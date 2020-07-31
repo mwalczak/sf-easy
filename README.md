@@ -1,8 +1,18 @@
 # SfEasy
-Symfony 5.1 User/Security Bootstrap with EasyAdmin
+Symfony 5.1 User/Security Bootstrap with EasyAdmin 3
+
+[More about EasyAdmin 3](https://symfony.com/doc/master/bundles/EasyAdminBundle/index.html)
+
+## Features
+```
+security
+login
+create user as admin
+reset password
+mailer (register, reset)
+```
 
 ## Installation
-
 Dependencies:
 php7.4, composer, symfony-cli
 
@@ -24,6 +34,22 @@ echo 'DATABASE_URL=mysql://root:P@ssw0rd@127.0.0.1:3307/default' >> .env.local
 bash reset_dev_db.sh
 ```
 
+## Config
+Configure Mailer for register and password reset:
+```
+MAILER_DSN
+MAILER_FROM
+MAILER_FROM
+```
+Modify and generate emails with mjml:
+```
+npm install
+npm run build:email
+```
+Put your custom css in:
+```
+public/css/admin.css
+```
 ## Usage
 
 Start local server with:
