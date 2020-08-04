@@ -184,7 +184,7 @@ class User implements UserInterface, UpdatedByInterface
         return $this->updatedBy;
     }
 
-    public function setUpdatedBy(?User $updatedBy): self
+    public function setUpdatedBy(?UserInterface $updatedBy): self
     {
         $this->updatedBy = $updatedBy;
 

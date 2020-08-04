@@ -8,7 +8,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 interface OwnedEntityInterface
 {
-    public function getOwner(): ?UserInterface;
+    public function getOwner(): ?User;
 
     public function setOwner(?UserInterface $owner): self;
 }

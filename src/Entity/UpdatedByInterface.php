@@ -8,7 +8,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 interface UpdatedByInterface
 {
-    public function getUpdatedBy(): ?UserInterface;
+    public function getUpdatedBy(): ?User;
 
     public function setUpdatedBy(?UserInterface $user): self;
 }
