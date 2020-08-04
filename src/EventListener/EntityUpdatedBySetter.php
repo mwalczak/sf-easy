@@ -20,8 +20,6 @@ class EntityUpdatedBySetter
 
     public function preUpdate(UpdatedByInterface $entity, LifecycleEventArgs $args): void
     {
-        $entity = $args->getObject();
-
         if ($this->user) {
             $entity->setUpdatedBy($this->user);
         }
@@ -29,8 +27,6 @@ class EntityUpdatedBySetter
 
     public function prePersist(UpdatedByInterface $entity, LifecycleEventArgs $args): void
     {
-        $entity = $args->getObject();
-
         if ($entity->getUpdatedBy()) {
             return;
         }
