@@ -60,7 +60,7 @@ class EasyAdminSubscriber implements EventSubscriberInterface
                 ->setController(UserCrudController::class)
                 ->setAction(Action::INDEX)
                 ->generateUrl();
-
+            //TODO: add flash
             $response = new RedirectResponse($url);
 
             $event->setResponse($response);
