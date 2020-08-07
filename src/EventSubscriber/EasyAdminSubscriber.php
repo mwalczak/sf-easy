@@ -13,16 +13,19 @@ use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityUpdatedEvent;
 use EasyCorp\Bundle\EasyAdminBundle\Router\CrudUrlGenerator;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class EasyAdminSubscriber implements EventSubscriberInterface
 {
     private EntityManagerInterface $entityManager;
     private CrudUrlGenerator $crudUrlGenerator;
+    private SessionInterface $session;
 
-    public function __construct(EntityManagerInterface $entityManager, CrudUrlGenerator $crudUrlGenerator)
+    public function __construct(EntityManagerInterface $entityManager, CrudUrlGenerator $crudUrlGenerator, SessionInterface $session)
     {
         $this->entityManager = $entityManager;
         $this->crudUrlGenerator = $crudUrlGenerator;
+        $this->session = $session;
     }
 
     public static function getSubscribedEvents()
@@ -60,7 +63,7 @@ class EasyAdminSubscriber implements EventSubscriberInterface
                 ->setController(UserCrudController::class)
                 ->setAction(Action::INDEX)
                 ->generateUrl();
-            //TODO: add flash
+            $this->session->getFlashBag()->add('error', 'Email exists');
             $response = new RedirectResponse($url);
 
             $event->setResponse($response);
