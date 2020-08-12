@@ -1,3 +1,6 @@
 .login-wrapper .form-widget-with-icon {
     align-items: center;
 }
+.alert-error {
+    color: #721c24;
+}

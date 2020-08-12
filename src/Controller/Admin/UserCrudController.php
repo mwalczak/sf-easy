@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
@@ -35,5 +36,21 @@ class UserCrudController extends AbstractCrudController
             DateTimeField::new('createdAt')->hideOnForm(),
             DateTimeField::new('updatedAt')->hideOnForm(),
         ];
+    }
+
+    /**
+     * @param EntityManagerInterface $entityManager
+     * @param User $entityInstance
+     */
+    public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    {
+        if ($entityManager->getRepository(User::class)->findOneBy([
+            'email' => $entityInstance->getEmail(),
+        ])) {
+            $this->container->get('session')->getFlashBag()->add('error', 'Email exists');
+        } else {
+            $entityManager->persist($entityInstance);
+            $entityManager->flush();
+        }
     }
 }

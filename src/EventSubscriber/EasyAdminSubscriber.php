@@ -32,7 +32,6 @@ class EasyAdminSubscriber implements EventSubscriberInterface
     {
         return [
             BeforeEntityUpdatedEvent::class => ['resetUserPassword'],
-            BeforeCrudActionEvent::class => ['checkUserUnique'],
         ];
     }
 
@@ -45,28 +44,5 @@ class EasyAdminSubscriber implements EventSubscriberInterface
         }
 
         $entity->cleanPassword();
-    }
-
-    public function checkUserUnique(BeforeCrudActionEvent $event): void
-    {
-        $context = $event->getAdminContext();
-
-        if (!($user = $context->getRequest()->get('User'))) {
-            return;
-        }
-
-        if ($this->entityManager->getRepository(User::class)->findOneBy([
-            'email' => $user['email'],
-        ])) {
-            $url = $this->crudUrlGenerator
-                ->build()
-                ->setController(UserCrudController::class)
-                ->setAction(Action::INDEX)
-                ->generateUrl();
-            $this->session->getFlashBag()->add('error', 'Email exists');
-            $response = new RedirectResponse($url);
-
-            $event->setResponse($response);
-        }
     }
 }
