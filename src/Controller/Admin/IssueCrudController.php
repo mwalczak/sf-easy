@@ -27,7 +27,7 @@ class IssueCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            AssociationField::new('project')->setCrudController(ProjectCrudController::class)->addCssClass('project_filter')->onlyWhenCreating()->onlyOnDetail(),
+            AssociationField::new('project')->setCrudController(ProjectCrudController::class)->addCssClass('project_filter')->onlyWhenCreating()->onlyOnDetail()->onlyOnIndex(),
             TextField::new('summary'),
             ChoiceField::new('status')->setChoices(array_flip(IssueStatusEnum::getAvailableNames()))->onlyWhenUpdating(),
             ChoiceField::new('priority')->setChoices(array_flip(IssuePriorityEnum::getAvailableNames())),
