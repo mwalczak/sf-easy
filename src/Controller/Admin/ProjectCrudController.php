@@ -30,5 +30,6 @@ class ProjectCrudController extends AbstractCrudController
         yield DateTimeField::new('updatedAt')->hideOnForm();
         yield TextField::new('updatedBy')->onlyOnDetail();
         yield TextField::new('hash')->onlyOnDetail();
+        yield AssociationField::new('users')->hideOnIndex();
     }
 }

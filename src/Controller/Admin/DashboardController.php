@@ -7,6 +7,7 @@ namespace App\Controller\Admin;
 use App\Entity\Issue;
 use App\Entity\Project;
 use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
@@ -24,7 +25,42 @@ class DashboardController extends AbstractDashboardController
      */
     public function index(): Response
     {
-        return parent::index();
+        /** @var EntityManagerInterface $em */
+        $em = $this->getDoctrine()->getManager();
+
+        $projectId = $this->container->get('session')->get('project');
+        $projectId = $this->container->get('request_stack')->getCurrentRequest()->get('project', $projectId);
+        $this->container->get('session')->set('project', $projectId);
+
+        $projects = $this->loadUserProjects($projectId);
+
+        $project = $projectId ? $em->getRepository(Project::class)->find($projectId) : null;
+
+        return $this->render('dashboard/admin.html.twig', [
+            'selected' => $projectId,
+            'projects' => $projects,
+            'issues' => $em->getRepository(Issue::class)->findBy(['project' => $project], ['createdAt' => 'DESC']),
+            'myIssues' => $em->getRepository(Issue::class)->findBy(['assignee' => $this->getUser()], ['createdAt' => 'DESC']),
+        ]);
+    }
+
+    /**
+     * @return Project[]
+     */
+    private function loadUserProjects(?string &$projectId): array
+    {
+        if ($this->isGranted('ROLE_ADMIN')) {
+            $projects = $this->getDoctrine()->getManager()->getRepository(Project::class)->findAll();
+        } else {
+            /** @var User $user */
+            $user = $this->getUser();
+            $projects = $user->getProjects()->toArray();
+            if ($projectId) {
+                $projectId = in_array($projectId, $user->getProjectsIds()) ? $projectId : $user->getProjectsIds()[0] ?? null;
+            }
+        }
+
+        return $projects;
     }
 
     public function configureDashboard(): Dashboard
@@ -54,4 +90,23 @@ class DashboardController extends AbstractDashboardController
             ->add(Crud::PAGE_INDEX, Action::DETAIL);
     }
 
+    public function configureCrud(): Crud
+    {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            $this->enableFilter();
+        }
+
+        return Crud::new();
+//            ->showEntityActionsAsDropdown();
+    }
+
+    private function enableFilter(): void
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+        /** @var EntityManagerInterface $em */
+        $em = $this->getDoctrine()->getManager();
+        $projects = $user->getProjectsIdsWithAccess();
+        $em->getFilters()->enable('project_filter')->setParameter('project', implode(',', $projects));
+    }
 }

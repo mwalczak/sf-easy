@@ -1,0 +1,108 @@
+{# @var ea \EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext #}
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block page_content %}
+    <div class="content-panel">
+        <div class="content-panel-header">
+            <h4>My Issues</h4>
+        </div>
+        <div class="content-panel-body">
+            <table class="table datagrid with-rounded-top table">
+                <thead>
+                <tr>
+                    <th class="text-" dir="ltr" width="500">Summary</th>
+                    <th class="text-" dir="ltr" width="100">Priority</th>
+                    <th class="text-" dir="ltr" width="100">Status</th>
+                    <th class="text-" dir="ltr">Created At</th>
+                    <th dir="ltr" width="10px">
+                        <span class="sr-only">Actions</span>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for issue in myIssues %}
+                    <tr data-id="1">
+                        <td class="text- field-text" dir="ltr">
+                            <span title="{{ issue.summary }}">{{ issue.summary }}</span>
+                        </td>
+                        <td class="text- field-text" dir="ltr">
+                            {{ issue.priority }}
+                        </td>
+                        <td class="text- field-text" dir="ltr">
+                            {{ issue.status }}
+                        </td>
+                        <td class="text- field-time" dir="ltr">
+                            <time datetime="{{ issue.createdAt|date('Y-m-d H:i') }}">{{ issue.createdAt|date('Y-m-d H:i') }}</time>
+                        </td>
+                        <td class="actions">
+                            <div class="dropdown dropdown-actions">
+                                <a class="dropdown-toggle btn btn-secondary btn-sm" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-fw fa-ellipsis-h"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item action-detail" href="">Custom action/a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="content-panel">
+        <div class="content-panel-header">
+            <h4>Issues in project</h4>
+        </div>
+        <div class="content-panel-body">
+            {{ include('dashboard/_project_select.html.twig') }}
+            <table class="table datagrid with-rounded-top table">
+                <thead>
+                <tr>
+                    <th class="text-" dir="ltr" width="500">Summary</th>
+                    <th class="text-" dir="ltr" width="100">Priority</th>
+                    <th class="text-" dir="ltr" width="100">Status</th>
+                    <th class="text-" dir="ltr" width="150">Created At</th>
+                    <th class="text-" dir="ltr">Assignee</th>
+                    <th dir="ltr" width="10px">
+                        <span class="sr-only">Actions</span>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for issue in issues %}
+                    <tr data-id="1">
+                        <td class="text- field-text" dir="ltr">
+                            <span title="{{ issue.summary }}">{{ issue.summary }}</span>
+                        </td>
+                        <td class="text- field-text" dir="ltr">
+                            {{ issue.priority }}
+                        </td>
+                        <td class="text- field-text" dir="ltr">
+                            {{ issue.status }}
+                        </td>
+                        <td class="text- field-time" dir="ltr">
+                            <time datetime="{{ issue.createdAt|date('Y-m-d H:i') }}">{{ issue.createdAt|date('Y-m-d H:i') }}</time>
+                        </td>
+                        <td class="text- field-text" dir="ltr">
+                            {{ issue.assignee }}
+                        </td>
+                        <td class="actions">
+                            <div class="dropdown dropdown-actions">
+                                <a class="dropdown-toggle btn btn-secondary btn-sm" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-fw fa-ellipsis-h"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item action-detail" href="">Custom action/a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% endblock %}

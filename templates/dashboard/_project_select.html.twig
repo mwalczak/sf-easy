@@ -1,0 +1,20 @@
+<div class="content-panel">
+    <div class="content-panel-header">
+        <form id="project_form" action="">
+            <label for="project">Select project:</label>
+            <select id="project" name="project" class="form-control form-control-sm">
+                <option value="">Select</option>
+                {% for project in projects %}
+                    <option value="{{ project.id }}" {{ selected == project.id ? 'selected="selected"' : '' }}>{{ project.name }}</option>
+                {% endfor %}
+            </select>
+        </form>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#project').change(function () {
+            $('#project_form').submit();
+        });
+    });
+</script>

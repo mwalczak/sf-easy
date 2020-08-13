@@ -16,7 +16,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  *     }
  * )
  */
-class Issue implements UpdatedByInterface
+class Issue implements UpdatedByInterface, ProjectComponentInterface
 {
     /**
      * @ORM\Id()
@@ -51,7 +51,7 @@ class Issue implements UpdatedByInterface
     private $description;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class)
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="issues")
      */
     private $assignee;
 

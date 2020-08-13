@@ -16,3 +16,5 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Entity'
                 prefix: 'App\Entity'
                 alias: App
+        filters:
+            project_filter: App\Doctrine\Filter\ProjectFilter

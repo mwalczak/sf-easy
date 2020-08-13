@@ -79,7 +79,7 @@ class User implements UserInterface, UpdatedByInterface
     private $projects;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Issue::class, mappedBy="assignee")
+     * @ORM\OneToMany(targetEntity=Issue::class, mappedBy="assignee")
      */
     private $issues;
 
@@ -255,6 +255,11 @@ class User implements UserInterface, UpdatedByInterface
         return $this;
     }
 
+    public function getOwnedProjectsIds(): array
+    {
+        return array_map(fn ($obj) => $obj->getId(), $this->getOwnedProjects()->toArray());
+    }
+
     /**
      * @return Collection|Project[]
      */
@@ -262,6 +267,18 @@ class User implements UserInterface, UpdatedByInterface
     {
         return $this->projects;
     }
+
+    public function getProjectsIds(): array
+    {
+        return array_map(fn ($obj) => $obj->getId(), $this->getProjects()->toArray());
+    }
+
+    public function getProjectsIdsWithAccess(): array
+    {
+        $projects = array_merge($this->getProjectsIds(), $this->getOwnedProjectsIds());
+        return array_unique($projects);
+    }
+
 
     public function addProject(Project $project): self
     {
