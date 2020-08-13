@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -65,6 +67,22 @@ class User implements UserInterface, UpdatedByInterface
      * @Assert\Length(min=8, max=128)
      */
     private ?string $plainPassword = null;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Project::class, mappedBy="owner")
+     */
+    private $ownedProjects;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Project::class, mappedBy="users")
+     */
+    private $projects;
+
+    public function __construct()
+    {
+        $this->ownedProjects = new ArrayCollection();
+        $this->projects = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -199,5 +217,69 @@ class User implements UserInterface, UpdatedByInterface
     public function setPlainPassword(string $password): void
     {
         $this->plainPassword = $password;
+    }
+
+    /**
+     * @return Collection|Project[]
+     */
+    public function getOwnedProjects(): Collection
+    {
+        return $this->ownedProjects;
+    }
+
+    public function addOwnedProject(Project $ownedProject): self
+    {
+        if (!$this->ownedProjects->contains($ownedProject)) {
+            $this->ownedProjects[] = $ownedProject;
+            $ownedProject->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOwnedProject(Project $ownedProject): self
+    {
+        if ($this->ownedProjects->contains($ownedProject)) {
+            $this->ownedProjects->removeElement($ownedProject);
+            // set the owning side to null (unless already changed)
+            if ($ownedProject->getOwner() === $this) {
+                $ownedProject->setOwner(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Project[]
+     */
+    public function getProjects(): Collection
+    {
+        return $this->projects;
+    }
+
+    public function addProject(Project $project): self
+    {
+        if (!$this->projects->contains($project)) {
+            $this->projects[] = $project;
+            $project->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProject(Project $project): self
+    {
+        if ($this->projects->contains($project)) {
+            $this->projects->removeElement($project);
+            $project->removeUser($this);
+        }
+
+        return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->getEmail();
     }
 }
