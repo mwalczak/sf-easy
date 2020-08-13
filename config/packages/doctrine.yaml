@@ -18,3 +18,4 @@ doctrine:
                 alias: App
         filters:
             project_filter: App\Doctrine\Filter\ProjectFilter
+            user_filter: App\Doctrine\Filter\UserFilter

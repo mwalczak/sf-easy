@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller\Admin;
 
 use App\Entity\Issue;
 use App\Enum\IssuePriorityEnum;
 use App\Enum\IssueStatusEnum;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
@@ -24,13 +27,13 @@ class IssueCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            AssociationField::new('project')->setCrudController(ProjectCrudController::class),
+            AssociationField::new('project')->setCrudController(ProjectCrudController::class)->addCssClass('project_filter')->onlyWhenCreating()->onlyOnDetail(),
             TextField::new('summary'),
             ChoiceField::new('status')->setChoices(array_flip(IssueStatusEnum::getAvailableNames()))->onlyWhenUpdating(),
             ChoiceField::new('priority')->setChoices(array_flip(IssuePriorityEnum::getAvailableNames())),
             TextareaField::new('stepsToReproduce'),
             TextareaField::new('description'),
-            AssociationField::new('assignee')->setCrudController(UserCrudController::class),
+            AssociationField::new('assignee')->setCrudController(UserCrudController::class)->addCssClass('project_filter_target'),
             DateTimeField::new('createdAt')->onlyOnDetail(),
             DateTimeField::new('updatedAt')->onlyOnDetail(),
             TextField::new('updatedBy')->onlyOnDetail(),
@@ -48,5 +51,12 @@ class IssueCrudController extends AbstractCrudController
         $this->getDoctrine()->getManager()->flush();
 
         return $this->redirectToRoute('admin_dashboard');
+    }
+
+    public function configureAssets(Assets $assets): Assets
+    {
+        return $assets
+            ->addJsFile('js/admin.js')
+            ;
     }
 }

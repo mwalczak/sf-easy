@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Enum\ProjectStatusEnum;
@@ -123,6 +125,23 @@ class Project implements UpdatedByInterface, OwnedEntityInterface
     public function getUsers(): Collection
     {
         return $this->users;
+    }
+
+    public function getUsersWithAccess(): array
+    {
+        $usersWithAccess = [];
+        $users = $this->users;
+        if (!$users->contains($this->owner)) {
+            $users->add($this->owner);
+        }
+        foreach ($users as $user) {
+            $usersWithAccess[$user->getId()] = [
+                'id' => $user->getId(),
+                'email' => $user->getEmail(),
+            ];
+        }
+
+        return $usersWithAccess;
     }
 
     public function addUser(User $user): self
