@@ -78,6 +78,11 @@ class User implements UserInterface, UpdatedByInterface
      */
     private $projects;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Issue::class, mappedBy="assignee")
+     */
+    private $issues;
+
     public function __construct()
     {
         $this->ownedProjects = new ArrayCollection();
@@ -273,6 +278,37 @@ class User implements UserInterface, UpdatedByInterface
         if ($this->projects->contains($project)) {
             $this->projects->removeElement($project);
             $project->removeUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Issue[]
+     */
+    public function getIssues(): Collection
+    {
+        return $this->issues;
+    }
+
+    public function addIssue(Issue $issue): self
+    {
+        if (!$this->issues->contains($issue)) {
+            $this->issues[] = $issue;
+            $issue->setAssignee($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIssue(Issue $issue): self
+    {
+        if ($this->issues->contains($issue)) {
+            $this->issues->removeElement($issue);
+            // set the owning side to null (unless already changed)
+            if ($issue->getAssignee() === $this) {
+                $issue->setAssignee(null);
+            }
         }
 
         return $this;
