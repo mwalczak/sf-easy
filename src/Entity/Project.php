@@ -75,11 +75,17 @@ class Project implements UpdatedByInterface, OwnedEntityInterface
      */
     private $updatedBy;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Issue::class, mappedBy="project", orphanRemoval=true)
+     */
+    private $issues;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
         $this->status = ProjectStatusEnum::ACTIVE;
         $this->hash = Uuid::v4()->toRfc4122();
+        $this->issues = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -211,6 +217,37 @@ class Project implements UpdatedByInterface, OwnedEntityInterface
     public function setUpdatedBy(?UserInterface $updatedBy): self
     {
         $this->updatedBy = $updatedBy;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Issue[]
+     */
+    public function getIssues(): Collection
+    {
+        return $this->issues;
+    }
+
+    public function addIssue(Issue $issue): self
+    {
+        if (!$this->issues->contains($issue)) {
+            $this->issues[] = $issue;
+            $issue->setProject($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIssue(Issue $issue): self
+    {
+        if ($this->issues->contains($issue)) {
+            $this->issues->removeElement($issue);
+            // set the owning side to null (unless already changed)
+            if ($issue->getProject() === $this) {
+                $issue->setProject(null);
+            }
+        }
 
         return $this;
     }

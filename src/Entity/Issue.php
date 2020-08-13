@@ -62,6 +62,12 @@ class Issue
      */
     private $updatedBy;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Project::class, inversedBy="issues")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $project;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -171,6 +177,18 @@ class Issue
     public function setUpdatedBy(?User $updatedBy): self
     {
         $this->updatedBy = $updatedBy;
+
+        return $this;
+    }
+
+    public function getProject(): ?Project
+    {
+        return $this->project;
+    }
+
+    public function setProject(?Project $project): self
+    {
+        $this->project = $project;
 
         return $this;
     }
