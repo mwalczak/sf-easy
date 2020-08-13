@@ -2,13 +2,21 @@
 
 namespace App\Entity;
 
+use App\Enum\IssueStatusEnum;
 use App\Repository\IssueRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=IssueRepository::class)
+ * @ORM\HasLifecycleCallbacks()
+ * @ORM\EntityListeners(
+ *     {
+ *          "App\EventListener\EntityUpdatedBySetter"
+ *     }
+ * )
  */
-class Issue
+class Issue implements UpdatedByInterface
 {
     /**
      * @ORM\Id()
@@ -67,6 +75,11 @@ class Issue
      * @ORM\JoinColumn(nullable=false)
      */
     private $project;
+
+    public function __construct()
+    {
+        $this->status = IssueStatusEnum::NEW;
+    }
 
     public function getId(): ?int
     {
@@ -150,9 +163,12 @@ class Issue
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAt(): self
     {
-        $this->createdAt = $createdAt;
+        $this->createdAt = new \DateTime();
 
         return $this;
     }
@@ -162,9 +178,12 @@ class Issue
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+    /**
+     * @ORM\PreUpdate
+     */
+    public function setUpdatedAt(): self
     {
-        $this->updatedAt = $updatedAt;
+        $this->updatedAt = new \DateTime();
 
         return $this;
     }
@@ -174,7 +193,7 @@ class Issue
         return $this->updatedBy;
     }
 
-    public function setUpdatedBy(?User $updatedBy): self
+    public function setUpdatedBy(?UserInterface $updatedBy): self
     {
         $this->updatedBy = $updatedBy;
 

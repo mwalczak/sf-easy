@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use App\Entity\Issue;
 use App\Entity\Project;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
@@ -37,6 +38,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linktoDashboard('Dashboard', 'fa fa-home');
         yield MenuItem::linkToCrud('Users', 'fa fa-users', User::class)->setPermission('ROLE_ADMIN');
         yield MenuItem::linkToCrud('Projects', 'fa fa-project-diagram', Project::class);
+        yield MenuItem::linkToCrud('Issues', 'fa fa-bug', Issue::class);
         yield MenuItem::linkToLogout('Logout', 'fa fa-sign-out');
     }
 
