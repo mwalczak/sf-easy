@@ -10,11 +10,13 @@ class IssueStatusEnum extends Enum
     public const ASSIGNED = 'assigned';
     public const OPEN = 'open';
     public const FIXED = 'fixed';
+    public const CLOSED = 'closed';
 
     protected static array $values = [
         self::NEW => 'New',
         self::ASSIGNED => 'Assigned',
         self::OPEN => 'Open',
         self::FIXED => 'Fixed',
+        self::CLOSED => 'Closed',
     ];
 }

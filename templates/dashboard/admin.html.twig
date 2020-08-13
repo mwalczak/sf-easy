@@ -4,7 +4,7 @@
 {% block page_content %}
     <div class="content-panel">
         <div class="content-panel-header">
-            <h4>My Issues</h4>
+            <h4>My Open Issues</h4>
         </div>
         <div class="content-panel-body">
             <table class="table datagrid with-rounded-top table">
@@ -40,7 +40,7 @@
                                     <i class="fa fa-fw fa-ellipsis-h"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item action-detail" href="">Custom action/a>
+                                    <a class="dropdown-item action-detail" href="{{ path('issue_close', {id: issue.id}) }}">Close</a>
                                 </div>
                             </div>
                         </td>
@@ -94,7 +94,7 @@
                                     <i class="fa fa-fw fa-ellipsis-h"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item action-detail" href="">Custom action/a>
+                                    <a class="dropdown-item action-detail" href="{{ path('issue_close', {id: issue.id}) }}">Close</a>
                                 </div>
                             </div>
                         </td>

@@ -7,6 +7,8 @@ namespace App\Controller\Admin;
 use App\Entity\Issue;
 use App\Entity\Project;
 use App\Entity\User;
+use App\Enum\IssueStatusEnum;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -36,11 +38,17 @@ class DashboardController extends AbstractDashboardController
 
         $project = $projectId ? $em->getRepository(Project::class)->find($projectId) : null;
 
+        $criteria = new Criteria();
+        $criteria
+            ->where($criteria->expr()->eq('assignee', $this->getUser()))
+            ->andWhere($criteria->expr()->notIn('status', [IssueStatusEnum::CLOSED, IssueStatusEnum::FIXED]))
+            ->orderBy(['createdAt' => 'DESC']);
+
         return $this->render('dashboard/admin.html.twig', [
             'selected' => $projectId,
             'projects' => $projects,
+            'myIssues' => $em->getRepository(Issue::class)->matching($criteria),
             'issues' => $em->getRepository(Issue::class)->findBy(['project' => $project], ['createdAt' => 'DESC']),
-            'myIssues' => $em->getRepository(Issue::class)->findBy(['assignee' => $this->getUser()], ['createdAt' => 'DESC']),
         ]);
     }
 

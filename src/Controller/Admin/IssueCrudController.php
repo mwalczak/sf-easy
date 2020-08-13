@@ -11,6 +11,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 class IssueCrudController extends AbstractCrudController
 {
@@ -33,5 +35,18 @@ class IssueCrudController extends AbstractCrudController
             DateTimeField::new('updatedAt')->onlyOnDetail(),
             TextField::new('updatedBy')->onlyOnDetail(),
         ];
+    }
+
+    /**
+     * @Route("/issues/{id}/close", name="issue_close")
+     */
+    public function close(Issue $issue): Response
+    {
+        $this->denyAccessUnlessGranted('edit', $issue);
+
+        $issue->setStatus(IssueStatusEnum::CLOSED);
+        $this->getDoctrine()->getManager()->flush();
+
+        return $this->redirectToRoute('admin_dashboard');
     }
 }
