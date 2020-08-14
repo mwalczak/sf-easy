@@ -32,7 +32,7 @@ class DashboardController extends AbstractDashboardController
     {
         yield MenuItem::linktoDashboard('Dashboard', 'fa fa-home');
         yield MenuItem::linkToCrud('Users', 'fa fa-users', User::class)->setPermission('ROLE_ADMIN');
-        yield MenuItem::linkToLogout('Logout', 'fa fa-exit');
+        yield MenuItem::linkToLogout('Logout', 'fa fa-sign-out');
     }
 
     public function configureAssets(): Assets
