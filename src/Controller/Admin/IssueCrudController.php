@@ -8,6 +8,7 @@ use App\Entity\Issue;
 use App\Enum\IssuePriorityEnum;
 use App\Enum\IssueStatusEnum;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
@@ -26,18 +27,20 @@ class IssueCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        return [
-            AssociationField::new('project')->setCrudController(ProjectCrudController::class)->addCssClass('project_filter')->onlyWhenCreating()->onlyOnDetail()->onlyOnIndex(),
-            TextField::new('summary'),
-            ChoiceField::new('status')->setChoices(array_flip(IssueStatusEnum::getAvailableNames()))->onlyWhenUpdating(),
-            ChoiceField::new('priority')->setChoices(array_flip(IssuePriorityEnum::getAvailableNames())),
-            TextareaField::new('stepsToReproduce'),
-            TextareaField::new('description'),
-            AssociationField::new('assignee')->setCrudController(UserCrudController::class)->addCssClass('project_filter_target'),
-            DateTimeField::new('createdAt')->onlyOnDetail(),
-            DateTimeField::new('updatedAt')->onlyOnDetail(),
-            TextField::new('updatedBy')->onlyOnDetail(),
-        ];
+        if(Crud::PAGE_EDIT === $pageName){
+            yield AssociationField::new('project')->setCrudController(ProjectCrudController::class)->addCssClass('project_filter')->setFormTypeOption('disabled', 'disabled');
+        } else {
+            yield AssociationField::new('project')->setCrudController(ProjectCrudController::class)->addCssClass('project_filter');
+        }
+        yield TextField::new('summary');
+        yield ChoiceField::new('status')->setChoices(array_flip(IssueStatusEnum::getAvailableNames()))->onlyWhenUpdating();
+        yield ChoiceField::new('priority')->setChoices(array_flip(IssuePriorityEnum::getAvailableNames()));
+        yield TextareaField::new('stepsToReproduce');
+        yield TextareaField::new('description');
+        yield AssociationField::new('assignee')->setCrudController(UserCrudController::class)->addCssClass('project_filter_target');
+        yield DateTimeField::new('createdAt')->onlyOnDetail();
+        yield DateTimeField::new('updatedAt')->onlyOnDetail();
+        yield TextField::new('updatedBy')->onlyOnDetail();
     }
 
     /**
@@ -56,7 +59,6 @@ class IssueCrudController extends AbstractCrudController
     public function configureAssets(Assets $assets): Assets
     {
         return $assets
-            ->addJsFile('js/admin.js')
-            ;
+            ->addJsFile('js/admin.js');
     }
 }
