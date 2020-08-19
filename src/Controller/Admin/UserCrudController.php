@@ -39,7 +39,6 @@ class UserCrudController extends AbstractCrudController
     }
 
     /**
-     * @param EntityManagerInterface $entityManager
      * @param User $entityInstance
      */
     public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void

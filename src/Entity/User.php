@@ -276,9 +276,9 @@ class User implements UserInterface, UpdatedByInterface
     public function getProjectsIdsWithAccess(): array
     {
         $projects = array_merge($this->getProjectsIds(), $this->getOwnedProjectsIds());
+
         return array_unique($projects);
     }
-
 
     public function addProject(Project $project): self
     {

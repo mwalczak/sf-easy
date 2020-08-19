@@ -27,7 +27,7 @@ class IssueCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        if(Crud::PAGE_EDIT === $pageName){
+        if (Crud::PAGE_EDIT === $pageName) {
             yield AssociationField::new('project')->setCrudController(ProjectCrudController::class)->addCssClass('project_filter')->setFormTypeOption('disabled', 'disabled');
         } else {
             yield AssociationField::new('project')->setCrudController(ProjectCrudController::class)->addCssClass('project_filter');
