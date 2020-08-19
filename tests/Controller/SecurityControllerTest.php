@@ -10,18 +10,29 @@ class SecurityControllerTest extends AppTestCase
     {
         $this->client->request('GET', '/');
 
-        $this->assertTrue($this->client->getResponse()->isRedirect('/admin'));
+        $this->assertResponseRedirects('/admin');
     }
 
     public function testOpenAdminAsAnonymous(): void
     {
         $this->client->request('GET', '/admin');
 
-        $this->assertTrue($this->client->getResponse()->isRedirect('/login'));
+        $this->assertResponseRedirects('/login');
+    }
+
+    public function testOpenAdminAsAdmin(): void
+    {
+        $this->loginAdmin();
+
+        $this->client->request('GET', '/admin');
+
+        $this->assertResponseStatusCodeSame(200);
     }
 
     public function testLogout(): void
     {
+        $this->loginAdmin();
+
         $this->client->request('GET', '/logout');
 
         $this->assertTrue($this->client->getResponse()->isRedirect());
