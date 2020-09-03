@@ -20,7 +20,6 @@ trait UploadableTrait
     }
 
     /**
-     * @param array|null $images
      * @return $this|UploadableInterface
      */
     public function setImages(?array $images): UploadableInterface
@@ -31,7 +30,6 @@ trait UploadableTrait
     }
 
     /**
-     * @param array|null $images
      * @return $this|UploadableInterface
      */
     public function addImages(array $images): UploadableInterface
