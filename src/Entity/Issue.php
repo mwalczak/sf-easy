@@ -20,6 +20,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class Issue implements UpdatedByInterface, ProjectComponentInterface, UploadableInterface
 {
+    use UploadableTrait;
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -77,11 +78,6 @@ class Issue implements UpdatedByInterface, ProjectComponentInterface, Uploadable
      * @ORM\JoinColumn(nullable=false)
      */
     private $project;
-
-    /**
-     * @ORM\Column(type="array", nullable=true)
-     */
-    private $images = [];
 
     public function __construct()
     {
@@ -216,35 +212,6 @@ class Issue implements UpdatedByInterface, ProjectComponentInterface, Uploadable
     {
         $this->project = $project;
 
-        return $this;
-    }
-
-    public function getImages(): array
-    {
-        return $this->images;
-    }
-
-    public function setImages(?array $images): self
-    {
-        $this->images = $images;
-
-        return $this;
-    }
-
-    public function addImages(array $images): self
-    {
-        $this->images = array_merge($this->images, $images);
-
-        return $this;
-    }
-
-    public function getIri(): string
-    {
-        return '/issues/'.$this->id;
-    }
-
-    public function setIri(?string $fake): self
-    {
         return $this;
     }
 }
