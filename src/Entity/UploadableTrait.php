@@ -19,14 +19,22 @@ trait UploadableTrait
         return $this->images;
     }
 
-    public function setImages(?array $images): self
+    /**
+     * @param array|null $images
+     * @return $this|UploadableInterface
+     */
+    public function setImages(?array $images): UploadableInterface
     {
         $this->images = $images;
 
         return $this;
     }
 
-    public function addImages(array $images): self
+    /**
+     * @param array|null $images
+     * @return $this|UploadableInterface
+     */
+    public function addImages(array $images): UploadableInterface
     {
         $this->images = array_merge($this->images, $images);
 
