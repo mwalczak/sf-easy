@@ -18,7 +18,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  *     }
  * )
  */
-class Issue implements UpdatedByInterface, ProjectComponentInterface
+class Issue implements UpdatedByInterface, ProjectComponentInterface, UploadableInterface
 {
     /**
      * @ORM\Id()
@@ -77,6 +77,11 @@ class Issue implements UpdatedByInterface, ProjectComponentInterface
      * @ORM\JoinColumn(nullable=false)
      */
     private $project;
+
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $images = [];
 
     public function __construct()
     {
@@ -177,7 +182,7 @@ class Issue implements UpdatedByInterface, ProjectComponentInterface
 
     public function getUpdatedAt(): ?\DateTimeInterface
     {
-        return $this->updatedAt;
+        return $this->updatedAt ?? $this->createdAt;
     }
 
     /**
@@ -211,6 +216,35 @@ class Issue implements UpdatedByInterface, ProjectComponentInterface
     {
         $this->project = $project;
 
+        return $this;
+    }
+
+    public function getImages(): array
+    {
+        return $this->images;
+    }
+
+    public function setImages(?array $images): self
+    {
+        $this->images = $images;
+
+        return $this;
+    }
+
+    public function addImages(array $images): self
+    {
+        $this->images = array_merge($this->images, $images);
+
+        return $this;
+    }
+
+    public function getIri(): string
+    {
+        return '/issues/'.$this->id;
+    }
+
+    public function setIri(?string $fake): self
+    {
         return $this;
     }
 }

@@ -1,0 +1,17 @@
+dl.datalist .field-hidden {
+    display: none;
+}
+.images-row>div {
+    margin-top: 4px;
+}
+.images-row ul {
+    list-style-type:none;
+    margin-left: 0;
+    padding-left: 5px;
+}
+.images-row li {
+    margin-top: 4px;
+}
+#paste-area {
+    padding-left: 10px;
+}

@@ -7,7 +7,7 @@ namespace App\Controller\Admin;
 use App\Entity\Issue;
 use App\Enum\IssuePriorityEnum;
 use App\Enum\IssueStatusEnum;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
+use App\Field\ImagesField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
@@ -18,8 +18,13 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @Route("/issues")
+ */
 class IssueCrudController extends AbstractCrudController
 {
+    use UploadableTrait;
+
     public static function getEntityFqcn(): string
     {
         return Issue::class;
@@ -39,12 +44,13 @@ class IssueCrudController extends AbstractCrudController
         yield TextareaField::new('description');
         yield AssociationField::new('assignee')->setCrudController(UserCrudController::class)->addCssClass('project_filter_target');
         yield DateTimeField::new('createdAt')->onlyOnDetail();
-        yield DateTimeField::new('updatedAt')->onlyOnDetail();
+        yield DateTimeField::new('updatedAt')->hideOnForm();
         yield TextField::new('updatedBy')->onlyOnDetail();
+        yield ImagesField::new('iri')->hideOnIndex();
     }
 
     /**
-     * @Route("/issues/{id}/close", name="issue_close")
+     * @Route("/{id}/close")
      */
     public function close(Issue $issue): Response
     {
@@ -54,11 +60,5 @@ class IssueCrudController extends AbstractCrudController
         $this->getDoctrine()->getManager()->flush();
 
         return $this->redirectToRoute('admin_dashboard');
-    }
-
-    public function configureAssets(Assets $assets): Assets
-    {
-        return $assets
-            ->addJsFile('js/admin.js');
     }
 }
